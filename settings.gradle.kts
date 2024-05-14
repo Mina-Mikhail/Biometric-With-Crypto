@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 pluginManagement {
     repositories {
         google {
@@ -24,6 +22,16 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 rootProject.name = "BiometricWithCrypto"
+
+// Main Module
 include(":app")
- 
+
+// Core Modules
+include(
+    ":biometricAuthentication",
+    ":crypto",
+    ":prefs"
+)

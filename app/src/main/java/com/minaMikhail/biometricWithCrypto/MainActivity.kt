@@ -1,24 +1,24 @@
 package com.minaMikhail.biometricWithCrypto
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.minaMikhail.biometricWithCrypto.biometric.IBiometricProvider
-import com.minaMikhail.biometricWithCrypto.biometric.enums.AuthenticationErrorType
-import com.minaMikhail.biometricWithCrypto.crypto.ICryptoProvider
-import com.minaMikhail.biometricWithCrypto.crypto.exceptions.BiometricDisabledException
-import com.minaMikhail.biometricWithCrypto.crypto.exceptions.NotAuthenticatedException
-import com.minaMikhail.biometricWithCrypto.crypto.exceptions.NotSecuredDeviceException
-import com.minaMikhail.biometricWithCrypto.crypto.models.CryptoResult
+import com.minaMikhail.biometricAuthentication.IBiometricProvider
+import com.minaMikhail.biometricAuthentication.enums.AuthenticationErrorType
 import com.minaMikhail.biometricWithCrypto.databinding.ActivityMainBinding
-import com.minaMikhail.biometricWithCrypto.prefs.IPrefsProvider
-import com.minaMikhail.biometricWithCrypto.prefs.enums.PreferencesKey
 import com.minaMikhail.biometricWithCrypto.utils.DUMMY_TOKEN_FOR_ENCRYPTION
 import com.minaMikhail.biometricWithCrypto.utils.SESSION_TOKEN_KEY
 import com.minaMikhail.biometricWithCrypto.utils.getStringFromResources
 import com.minaMikhail.biometricWithCrypto.utils.showSnackbar
 import com.minaMikhail.biometricWithCrypto.utils.toJsonModel
 import com.minaMikhail.biometricWithCrypto.utils.toJsonString
+import com.minaMikhail.crypto.ICryptoProvider
+import com.minaMikhail.crypto.exceptions.BiometricChangedException
+import com.minaMikhail.crypto.exceptions.BiometricDisabledException
+import com.minaMikhail.crypto.exceptions.NotAuthenticatedException
+import com.minaMikhail.crypto.exceptions.NotSecuredDeviceException
+import com.minaMikhail.crypto.models.CryptoResult
+import com.minaMikhail.prefs.IPrefsProvider
+import com.minaMikhail.prefs.enums.PreferencesKey
 import dagger.hilt.android.AndroidEntryPoint
 import javax.crypto.Cipher
 import javax.inject.Inject
@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setUpListeners() {
         binding.apply {
             btnEncrypt.setOnClickListener {
@@ -120,31 +119,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun authenticateUserForDecryption(cryptoResult: CryptoResult) {
-        val decryptionCipher = cryptoProvider.getCipherForDecryption(
-            keyName = SESSION_TOKEN_KEY,
-            initializationVector = cryptoResult.initializationVector,
-            requireBiometricAuthentication = true
-        )
+        try {
+            val decryptionCipher = cryptoProvider.getCipherForDecryption(
+                keyName = SESSION_TOKEN_KEY,
+                initializationVector = cryptoResult.initializationVector,
+                requireBiometricAuthentication = true
+            )
 
-        biometricProvider.authenticateWithBiometric(
-            title = getStringFromResources(R.string.biometric_title),
-            subTitle = getStringFromResources(R.string.biometric_sub_title),
-            description = getStringFromResources(R.string.description),
-            negativeButtonText = getStringFromResources(R.string.cancel),
-            activity = this,
-            processSuccess = {
-                processBiometricAuthenticationForDecryptionSuccess(
-                    decryptCipher = it.cryptoObject?.cipher,
-                    encryptedBytes = cryptoResult.encryptedBytes
-                )
-            },
-            processError = {
-                processBiometricAuthenticationError(
-                    errorType = it
-                )
-            },
-            cipher = decryptionCipher
-        )
+            biometricProvider.authenticateWithBiometric(
+                title = getStringFromResources(R.string.biometric_title),
+                subTitle = getStringFromResources(R.string.biometric_sub_title),
+                description = getStringFromResources(R.string.description),
+                negativeButtonText = getStringFromResources(R.string.cancel),
+                activity = this,
+                processSuccess = {
+                    processBiometricAuthenticationForDecryptionSuccess(
+                        decryptCipher = it.cryptoObject?.cipher,
+                        encryptedBytes = cryptoResult.encryptedBytes
+                    )
+                },
+                processError = {
+                    processBiometricAuthenticationError(
+                        errorType = it
+                    )
+                },
+                cipher = decryptionCipher
+            )
+        } catch (ex: Exception) {
+            handleExceptions(ex)
+        }
     }
 
     private fun processBiometricAuthenticationForDecryptionSuccess(
@@ -152,10 +155,15 @@ class MainActivity : AppCompatActivity() {
         encryptedBytes: ByteArray
     ) {
         decryptCipher?.let {
-            binding.tvResult.text = cryptoProvider.decryptData(
-                decryptCipher = it,
-                encryptedBytes = encryptedBytes
-            )
+            try {
+                binding.tvResult.text = cryptoProvider.decryptData(
+                    keyName = SESSION_TOKEN_KEY,
+                    decryptCipher = it,
+                    encryptedBytes = encryptedBytes
+                )
+            } catch (ex: Exception) {
+                handleExceptions(ex)
+            }
         }
     }
 
@@ -174,6 +182,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             is NotAuthenticatedException -> {
+                binding.root.showSnackbar(
+                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
+                )
+            }
+
+            is BiometricChangedException -> {
                 binding.root.showSnackbar(
                     message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
                 )

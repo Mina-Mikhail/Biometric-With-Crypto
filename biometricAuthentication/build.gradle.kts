@@ -1,27 +1,23 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kapt)
     alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.minaMikhail.biometricWithCrypto"
+    namespace = "com.minaMikhail.biometricAuthentication"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.minaMikhail.biometricWithCrypto"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -35,30 +31,17 @@ android {
     }
 
     kotlinOptions.jvmTarget = "1.8"
-
-    viewBinding.isEnabled = true
 }
 
 dependencies {
 
     // Support
-    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity)
-
-    // UI
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
 
     // Hilt
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
-    // Utils
-    implementation(libs.gson)
-
-    // Core Modules
-    implementation(projects.biometricAuthentication)
-    implementation(projects.crypto)
-    implementation(projects.prefs)
+    // Biometric
+    api(libs.androidx.biometric)
 }

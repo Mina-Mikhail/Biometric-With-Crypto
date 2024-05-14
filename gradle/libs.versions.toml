@@ -1,32 +1,61 @@
 [versions]
+# Plugins
 agp = "8.4.0"
 kotlin = "1.9.0"
+
+# Support
 coreKtx = "1.13.1"
 appcompat = "1.6.1"
-material = "1.12.0"
 activity = "1.9.0"
+
+# UI
+material = "1.12.0"
 constraintlayout = "2.1.4"
+
+# Hilt
 hiltVersion = "2.51"
+
+# Biometric
 biometric = "1.1.0"
-gson = "2.10.1"
+
+# SharedPreferences
 preference = "1.2.1"
+
+# Security
 androidCrypto = "1.0.0"
 
+# Utils
+gson = "2.10.1"
+
 [libraries]
+# Support
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+
+# UI
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
-hiltDaggerCompiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltVersion" }
-androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-preference = { module = "androidx.preference:preference", version.ref = "preference" }
-androidCrypto = { module = "androidx.security:security-crypto", version.ref = "androidCrypto" }
+
+# Hilt
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
+
+# Biometric
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
+
+# SharedPreferences
+preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+
+# Security
+android-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "androidCrypto" }
+
+# Utils
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
