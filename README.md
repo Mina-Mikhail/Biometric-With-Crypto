@@ -39,6 +39,11 @@ Crypto App for Encryption & Decryption with Biometric Authentication
 </div>
 
 
+<div align="center">
+<img src="https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/imgs/header-img.jpg">
+</div>
+
+
 :point_right: Architecture:
 -----------------
 
