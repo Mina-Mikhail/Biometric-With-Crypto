@@ -2,10 +2,9 @@
 Crypto App for Encryption & Decryption with Biometric Authentication
 </h1>
 
+<br>
+
 <div align="center">
-<a name="open_source">
-  <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=102?style=for-the-badge">
-</a>
 <a name="code_factor" href="https://www.codefactor.io/repository/github/mina-mikhail/Biometric-With-Crypto">
   <img src="https://www.codefactor.io/repository/github/mina-mikhail/Biometric-With-Crypto/badge?style=for-the-badge">
 </a>  
@@ -37,11 +36,14 @@ Crypto App for Encryption & Decryption with Biometric Authentication
 </a>
 </div>
 
+<br>
+<br>
 
 <div align="center">
 <img src="https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/imgs/header-img.jpg">
 </div>
 
+<br>
 
 :point_right: Architecture:
 -----------------
@@ -119,7 +121,8 @@ If this project help you reduce time to develop, you can give me a cup of coffee
 
 <a href="https://www.buymeacoffee.com/mina.mikhail" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
-
+<br>
+<br>
 
 :warning: License:
 --------
