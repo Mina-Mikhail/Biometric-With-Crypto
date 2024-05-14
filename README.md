@@ -2,13 +2,12 @@
 Crypto App for Encryption & Decryption with Biometric Authentication
 </h1>
 
-
 <div align="center">
 <a name="open_source">
   <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=102?style=for-the-badge">
 </a>
-<a name="code_factor" href="https://www.codefactor.io/repository/github/mina-mikhail/kotlin-base-mvvm">
-  <img src="https://www.codefactor.io/repository/github/mina-mikhail/kotlin-base-mvvm/badge?style=for-the-badge">
+<a name="code_factor" href="https://www.codefactor.io/repository/github/mina-mikhail/Biometric-With-Crypto">
+  <img src="https://www.codefactor.io/repository/github/mina-mikhail/Biometric-With-Crypto/badge?style=for-the-badge">
 </a>  
 <a name="platform">
   <img src="https://img.shields.io/badge/Platform-Android-success?style=for-the-badge">
