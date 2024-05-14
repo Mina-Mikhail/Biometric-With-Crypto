@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Biometric With Crypto</string>
+
+    <string name="encrypt_data">Encrypt Data</string>
+    <string name="decrypt_data">Decrypt Data</string>
+    <string name="no_data_to_decrypt">No data encrypted before</string>
+    <string name="biometric_title">Biometric Authentication</string>
+    <string name="biometric_sub_title">Please use you biometrics for authentication</string>
+    <string name="description">Need authentication to login to the app</string>
+    <string name="cancel">Cancel</string>
+    <string name="biometric_timeout">Biometric timeout, please try again</string>
+    <string name="biometric_no_space">there is no enough space on your phone, please free up your phone first</string>
+    <string name="user_cancelled">Biometric authentication cancelled</string>
+    <string name="biometric_locked_out">Biometric locked out, due to many failure attempts</string>
+    <string name="some_error_occurred">Some error occurred, try again</string>
+
+</resources>
