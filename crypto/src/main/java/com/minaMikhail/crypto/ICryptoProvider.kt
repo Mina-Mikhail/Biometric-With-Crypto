@@ -99,4 +99,11 @@ interface ICryptoProvider {
         decryptCipher: Cipher,
         encryptedBytes: ByteArray?
     ): String
+
+    /**
+     * - This method used to delete an existing key in the key store.
+     *
+     * @param keyName name of the key to use for encryption and decryption.
+     */
+    fun deleteKey(keyName: String)
 }

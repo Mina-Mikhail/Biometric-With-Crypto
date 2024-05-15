@@ -132,4 +132,8 @@ class CryptoProvider @Inject constructor(
             }
         }
     }
+
+    override fun deleteKey(keyName: String) {
+        deleteKey(keyStore, keyName)
+    }
 }

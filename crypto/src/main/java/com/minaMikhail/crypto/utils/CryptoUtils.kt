@@ -138,7 +138,7 @@ object CryptoUtils {
     }.generateKey()
 
     /**
-     * - This method used to clear an existing key in the key store.
+     * - This method used to delete an existing key in the key store.
      *
      * @param keyStore the key store file.
      * @param keyName name of the key to use for encryption and decryption.

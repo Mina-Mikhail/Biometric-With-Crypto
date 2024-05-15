@@ -1,32 +1,31 @@
-package com.minaMikhail.biometricWithCrypto
+package com.minaMikhail.biometricWithCrypto.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.minaMikhail.biometricAuthentication.IBiometricProvider
 import com.minaMikhail.biometricAuthentication.enums.AuthenticationErrorType
-import com.minaMikhail.biometricWithCrypto.databinding.ActivityMainBinding
-import com.minaMikhail.biometricWithCrypto.utils.DUMMY_TOKEN_FOR_ENCRYPTION
-import com.minaMikhail.biometricWithCrypto.utils.SESSION_TOKEN_KEY
+import com.minaMikhail.biometricWithCrypto.R
+import com.minaMikhail.biometricWithCrypto.databinding.ActivityLoginBinding
+import com.minaMikhail.biometricWithCrypto.home.HomeActivity
+import com.minaMikhail.biometricWithCrypto.utils.USERNAME_KEY
 import com.minaMikhail.biometricWithCrypto.utils.getStringFromResources
 import com.minaMikhail.biometricWithCrypto.utils.showSnackbar
-import com.minaMikhail.biometricWithCrypto.utils.toJsonModel
 import com.minaMikhail.biometricWithCrypto.utils.toJsonString
 import com.minaMikhail.crypto.ICryptoProvider
 import com.minaMikhail.crypto.exceptions.BiometricChangedException
 import com.minaMikhail.crypto.exceptions.BiometricDisabledException
 import com.minaMikhail.crypto.exceptions.NotAuthenticatedException
 import com.minaMikhail.crypto.exceptions.NotSecuredDeviceException
-import com.minaMikhail.crypto.models.CryptoResult
 import com.minaMikhail.prefs.IPrefsProvider
-import com.minaMikhail.prefs.enums.PreferencesKey
 import dagger.hilt.android.AndroidEntryPoint
 import javax.crypto.Cipher
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
-    private var _binding: ActivityMainBinding? = null
+    private var _binding: ActivityLoginBinding? = null
     private val binding get() = checkNotNull(_binding)
 
     @Inject
@@ -47,25 +46,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initBinding() {
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
 
     private fun setUpListeners() {
         binding.apply {
-            btnEncrypt.setOnClickListener {
-                authenticateUserForEncryption()
-            }
+            btnLogin.setOnClickListener {
+                val username = etUsername.text.toString().trim()
+                val password = etPassword.text.toString().trim()
 
-            btnDecrypt.setOnClickListener {
-                prefsProvider
-                    .getString(PreferencesKey.ENCRYPTED_DATA_KEY)
-                    .toJsonModel(CryptoResult::class.java)
-                    ?.let {
-                        authenticateUserForDecryption(it)
-                    } ?: let {
-                    tvResult.text = getStringFromResources(R.string.no_data_to_decrypt)
+                if (username.isEmpty()) {
+                    root.showSnackbar(
+                        message = getStringFromResources(R.string.empty_username)
+                    )
+                    return@setOnClickListener
                 }
+
+                if (password.isEmpty()) {
+                    root.showSnackbar(
+                        message = getStringFromResources(R.string.empty_password)
+                    )
+                    return@setOnClickListener
+                }
+
+                authenticateUserForEncryption()
             }
         }
     }
@@ -73,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun authenticateUserForEncryption() {
         try {
             val encryptionCipher = cryptoProvider.getCipherForEncryption(
-                keyName = SESSION_TOKEN_KEY,
+                keyName = USERNAME_KEY,
                 requireBiometricAuthentication = true
             )
 
@@ -107,61 +112,16 @@ class MainActivity : AppCompatActivity() {
             try {
                 cryptoProvider.encryptData(
                     encryptCipher = encryptCipher,
-                    dataToEncrypt = DUMMY_TOKEN_FOR_ENCRYPTION
-                ).apply {
-                    prefsProvider.saveString(PreferencesKey.ENCRYPTED_DATA_KEY, this.toJsonString())
-                    binding.tvResult.text = this.encryptedData
+                    dataToEncrypt = binding.etUsername.text.toString().trim()
+                ).let { cryptoResult ->
+                    prefsProvider.apply {
+                        setLoggedIn(true)
+                        saveEncryptedData(cryptoResult.toJsonString())
+                    }
+
+                    openHomeActivity()
                 }
             } catch (ex: NotAuthenticatedException) {
-                handleExceptions(ex)
-            }
-        }
-    }
-
-    private fun authenticateUserForDecryption(cryptoResult: CryptoResult) {
-        try {
-            val decryptionCipher = cryptoProvider.getCipherForDecryption(
-                keyName = SESSION_TOKEN_KEY,
-                initializationVector = cryptoResult.initializationVector,
-                requireBiometricAuthentication = true
-            )
-
-            biometricProvider.authenticateWithBiometric(
-                title = getStringFromResources(R.string.biometric_title),
-                subTitle = getStringFromResources(R.string.biometric_sub_title),
-                description = getStringFromResources(R.string.description),
-                negativeButtonText = getStringFromResources(R.string.cancel),
-                activity = this,
-                processSuccess = {
-                    processBiometricAuthenticationForDecryptionSuccess(
-                        decryptCipher = it.cryptoObject?.cipher,
-                        encryptedBytes = cryptoResult.encryptedBytes
-                    )
-                },
-                processError = {
-                    processBiometricAuthenticationError(
-                        errorType = it
-                    )
-                },
-                cipher = decryptionCipher
-            )
-        } catch (ex: Exception) {
-            handleExceptions(ex)
-        }
-    }
-
-    private fun processBiometricAuthenticationForDecryptionSuccess(
-        decryptCipher: Cipher?,
-        encryptedBytes: ByteArray
-    ) {
-        decryptCipher?.let {
-            try {
-                binding.tvResult.text = cryptoProvider.decryptData(
-                    keyName = SESSION_TOKEN_KEY,
-                    decryptCipher = it,
-                    encryptedBytes = encryptedBytes
-                )
-            } catch (ex: Exception) {
                 handleExceptions(ex)
             }
         }
@@ -229,12 +189,21 @@ class MainActivity : AppCompatActivity() {
                 )
             }
 
-            AuthenticationErrorType.OTHER_ERROR, AuthenticationErrorType.UNKNOWN_ERROR -> {
+            AuthenticationErrorType.OTHER_ERROR,
+            AuthenticationErrorType.UNKNOWN_ERROR -> {
                 binding.root.showSnackbar(
                     message = getStringFromResources(R.string.some_error_occurred)
                 )
             }
         }
+    }
+
+    private fun openHomeActivity() {
+        val intent = Intent(this, HomeActivity::class.java).apply {
+            putExtra(USERNAME_KEY, binding.etUsername.text.toString().trim())
+        }
+        startActivity(intent)
+        finish()
     }
 
     override fun onDestroy() {

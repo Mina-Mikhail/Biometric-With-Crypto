@@ -1,15 +1,14 @@
 package com.minaMikhail.prefs
 
-import com.minaMikhail.prefs.enums.PreferencesKey
-
 interface IPrefsProvider {
 
-    fun saveString(
-        key: PreferencesKey,
-        data: String?
-    )
+    fun saveEncryptedData(data: String?)
 
-    fun getString(
-        key: PreferencesKey
-    ): String
+    fun getEncryptedData(): String
+
+    fun setLoggedIn(isLoggedIn: Boolean)
+
+    fun isLoggedIn(): Boolean
+
+    fun clearUserData()
 }
