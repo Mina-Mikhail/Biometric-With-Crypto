@@ -46,6 +46,11 @@ Crypto App for Encryption & Decryption with Biometric Authentication
 <br>
 
 
+:point_right: Extra Information:
+-----------------
+- [Biometric Authentication Presentation](https://docs.google.com/presentation/d/14h8hKSx8B_J4Sw21PWJYL-qh0ae6B4W7W_I543sU2no/edit?usp=sharing) : If you want to know more about biometrics and how to use/implement it, you can learn more from this presentation which created by me.
+  
+
 :point_right: Architecture:
 -----------------
 - Following Clean Architecture.
