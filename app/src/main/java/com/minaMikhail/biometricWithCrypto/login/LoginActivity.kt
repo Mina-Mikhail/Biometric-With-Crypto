@@ -82,11 +82,15 @@ class LoginActivity : AppCompatActivity() {
                 requireBiometricAuthentication = true
             )
 
-            biometricProvider.authenticateWithBiometric(
+            val promptInfo = biometricProvider.createPromptInfo(
                 title = getStringFromResources(R.string.biometric_title),
                 subTitle = getStringFromResources(R.string.biometric_sub_title),
                 description = getStringFromResources(R.string.description),
-                negativeButtonText = getStringFromResources(R.string.cancel),
+                negativeButtonText = getStringFromResources(R.string.cancel)
+            )
+
+            biometricProvider.authenticateWithBiometric(
+                promptInfo = promptInfo,
                 activity = this,
                 processSuccess = {
                     processBiometricAuthenticationForEncryptionSuccess(
@@ -131,25 +135,25 @@ class LoginActivity : AppCompatActivity() {
         when (ex) {
             is NotSecuredDeviceException -> {
                 binding.root.showSnackbar(
-                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
+                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "NotSecuredDeviceException"}"
                 )
             }
 
             is BiometricDisabledException -> {
                 binding.root.showSnackbar(
-                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
+                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "BiometricDisabledException"}"
                 )
             }
 
             is NotAuthenticatedException -> {
                 binding.root.showSnackbar(
-                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
+                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "NotAuthenticatedException"}"
                 )
             }
 
             is BiometricChangedException -> {
                 binding.root.showSnackbar(
-                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "Something went wrong"}"
+                    message = "Error:\n${ex.message ?: ex.cause?.message ?: "BiometricChangedException"}"
                 )
             }
 

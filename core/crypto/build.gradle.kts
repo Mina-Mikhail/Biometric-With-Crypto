@@ -7,30 +7,32 @@ plugins {
 
 android {
     namespace = "com.minaMikhail.crypto"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            consumerProguardFiles(rootProject.extra.get("proguardFileName").toString())
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = libs.versions.jvmVersion.get()
+
+    lint {
+        quiet = true
+        abortOnError = false
+        warningsAsErrors = true
+        disable += "Instantiatable"
+    }
 }
 
 dependencies {

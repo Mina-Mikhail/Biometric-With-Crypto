@@ -48,11 +48,14 @@ Crypto App for Encryption & Decryption with Biometric Authentication
 
 :point_right: Extra Information:
 -----------------
-- [Biometric Authentication Presentation](https://docs.google.com/presentation/d/14h8hKSx8B_J4Sw21PWJYL-qh0ae6B4W7W_I543sU2no/edit?usp=sharing) : If you want to know more about biometrics and how to use/implement it, you can learn more from this presentation which created by me.
-  
+
+- [Biometric Authentication Presentation](https://docs.google.com/presentation/d/14h8hKSx8B_J4Sw21PWJYL-qh0ae6B4W7W_I543sU2no/edit?usp=sharing) :
+  If you want to know more about biometrics and how to use/implement it, you can learn more from
+  this presentation which created by me.
 
 :point_right: Architecture:
 -----------------
+
 - Following Clean Architecture.
 - Modularization.
 - Applying SOLID principles, each class has a single job with separation of concerns by making
@@ -60,9 +63,9 @@ Crypto App for Encryption & Decryption with Biometric Authentication
   of each other and communicating with interfaces.
 - Using Kotlin-KTS & Gradle Version Catalog to handle project dependencies.
 
-
 :point_right: Tech Stack & Libraries:
 -----------------
+
 - [MaterialDesign](https://m2.material.io/develop/android) : Use material design components in XML
   Design.
 - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) : Allows to more easily
@@ -77,17 +80,21 @@ Crypto App for Encryption & Decryption with Biometric Authentication
   Decryption.
 - [Gson](https://github.com/google/gson) : For parsing and serializing objects.
 
-
 :point_right: Project Structure:
 -----------------
-- Sample includes some basic screens to show how to implement biometric login with encryption & decryption for user data:
-  - [Splash Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/splash/SplashActivity.kt) : Handles biometric login and decrypt user data if user logged in before with credentials.
-  - [Login Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/login/LoginActivity.kt) : Handles user login business with credentials and encrypt his data.
-  - [Home Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/home/HomeActivity.kt) : Displays current user info, with benefit of logout and clear user data.
 
+- Sample includes some basic screens to show how to implement biometric login with encryption &
+  decryption for user data:
+    - [Splash Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/splash/SplashActivity.kt) :
+      Handles biometric login and decrypt user data if user logged in before with credentials.
+    - [Login Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/login/LoginActivity.kt) :
+      Handles user login business with credentials and encrypt his data.
+    - [Home Screen](https://github.com/Mina-Mikhail/Biometric-With-Crypto/blob/main/app/src/main/java/com/minaMikhail/biometricWithCrypto/home/HomeActivity.kt) :
+      Displays current user info, with benefit of logout and clear user data.
 
 :point_right: Modules:
 -----------------
+
 - [biometricAuthentication](https://github.com/Mina-Mikhail/Biometric-With-Crypto/tree/main/biometricAuthentication) :
   To handle Biometric Authentication.
 - [crypto](https://github.com/Mina-Mikhail/Biometric-With-Crypto/tree/main/crypto) : To handle
@@ -95,29 +102,28 @@ Crypto App for Encryption & Decryption with Biometric Authentication
 - [prefs](https://github.com/Mina-Mikhail/Biometric-With-Crypto/tree/main/prefs) : For managing
   SharedPreferences.
 
-
 :point_right: Code Style:
 -----------
-- Following official kotlin code style
 
+- Following official kotlin code style
 
 :point_right: Local Development:
 -----------
+
 - Here are some useful Gradle commands for executing this example:
     - `./gradlew clean` - Deletes build directory.
 
-
 :point_right: Contributing to Project:
 -----------
+
 - Just fork this repository and contribute back using pull requests.
 - Any contributions, large or small, major features, bug fixes, are welcomed and appreciated but
   will be thoroughly reviewed .
 
-
 :point_right: Find this project useful ? :heart:
 -----------
-- Support it by clicking the :star: button on the upper right of this page. :v:
 
+- Support it by clicking the :star: button on the upper right of this page. :v:
 
 :point_right: Stargazers: :star:
 -----------

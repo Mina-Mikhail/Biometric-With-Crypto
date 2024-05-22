@@ -5,6 +5,4 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
     </style>
-
-    <style name="Theme.BiometricWithCrypto" parent="Base.Theme.BiometricWithCrypto" />
 </resources>

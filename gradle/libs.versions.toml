@@ -1,7 +1,15 @@
 [versions]
+#Config
+compileSdk = "34"
+minSdk = "24"
+versionCode = "1"
+versionName = "1.0.0"
+jvmVersion = "17"
+
 # Plugins
-agp = "8.4.0"
+agp = "8.4.1"
 kotlin = "1.9.0"
+sonarQube = "5.0.0.4638"
 
 # Support
 coreKtx = "1.13.1"
@@ -59,3 +67,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+sonarQube = { id = "org.sonarqube", version.ref = "sonarQube" }

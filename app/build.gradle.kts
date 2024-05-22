@@ -7,36 +7,46 @@ plugins {
 
 android {
     namespace = "com.minaMikhail.biometricWithCrypto"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.minaMikhail.biometricWithCrypto"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = rootProject.extra.get("applicationId").toString()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.compileSdk.get().toInt()
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = rootProject.extra.get("testRunner").toString()
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
+
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android.txt"),
+                rootProject.extra.get("proguardFileName").toString()
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = libs.versions.jvmVersion.get()
 
     viewBinding.isEnabled = true
+
+    lint {
+        quiet = true
+        abortOnError = false
+        warningsAsErrors = true
+        disable += "Instantiatable"
+    }
 }
 
 dependencies {

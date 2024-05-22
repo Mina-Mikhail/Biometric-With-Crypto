@@ -15,12 +15,27 @@ interface IBiometricProvider {
     fun canAuthenticateWithBiometric(): Boolean
 
     /**
-     * - Displays the authentication prompt dialog to the user.
+     * - Returns a `PromptInfo` object used to display an authentication prompt to the user.
      *
      * @param title a title for the authentication prompt dialog.
      * @param subTitle a subTitle for the authentication prompt dialog.
      * @param description a description for the authentication prompt dialog.
      * @param negativeButtonText a text for the negative button in the authentication prompt dialog.
+     *
+     *
+     * @return [BiometricPrompt.PromptInfo] object.
+     */
+    fun createPromptInfo(
+        title: String,
+        subTitle: String,
+        description: String,
+        negativeButtonText: String
+    ): BiometricPrompt.PromptInfo
+
+    /**
+     * - Displays the authentication prompt dialog to the user.
+     *
+     * @param promptInfo The object used to display an authentication prompt to the user.
      * @param activity The activity of the client application that will host the prompt.
      * @param processSuccess an action to be performed when the authentication is successful.
      * @param processError an action to be performed when the authentication is failed.
@@ -29,10 +44,7 @@ interface IBiometricProvider {
      *
      */
     fun authenticateWithBiometric(
-        title: String,
-        subTitle: String,
-        description: String,
-        negativeButtonText: String,
+        promptInfo: BiometricPrompt.PromptInfo,
         activity: AppCompatActivity,
         processSuccess: (BiometricPrompt.AuthenticationResult) -> Unit,
         processError: (AuthenticationErrorType) -> Unit,

@@ -11,31 +11,6 @@ object BiometricUtils {
     private val TAG: String = BiometricUtils::class.java.simpleName
 
     /**
-     * - Returns a `PromptInfo` object used to display an authentication prompt to the user.
-     *
-     * @param title a title for the authentication prompt dialog.
-     * @param subTitle a subTitle for the authentication prompt dialog.
-     * @param description a description for the authentication prompt dialog.
-     * @param negativeButtonText a text for the negative button in the authentication prompt dialog.
-     *
-     *
-     * @return [BiometricPrompt.PromptInfo] object.
-     */
-    internal fun createPromptInfo(
-        title: String,
-        subTitle: String,
-        description: String,
-        negativeButtonText: String
-    ): BiometricPrompt.PromptInfo =
-        BiometricPrompt.PromptInfo.Builder().apply {
-            setTitle(title)
-            setSubtitle(subTitle)
-            setDescription(description)
-            setConfirmationRequired(false)
-            setNegativeButtonText(negativeButtonText)
-        }.build()
-
-    /**
      * - Returns a `BiometricPrompt` object used to display an authentication prompt to the user.
      *
      * @param executor The executor that will be used to run [BiometricPrompt.AuthenticationCallback] methods.
